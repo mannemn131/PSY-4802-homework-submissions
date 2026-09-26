@@ -1,0 +1,112 @@
+---
+title: "Foundations in R Assignment pt 1"
+author: "Nikitha Mannem"
+date: "2026-09-25"
+output: html_document
+---
+
+For your first R Assignment, complete the questions below. Remember, weekly assignments are graded based on attempts and accuracy, so it's ok if you don't get everything immediately. Please submit your answers by 1) updating this file in your GitHub repository and 2) uploading a .html file of the assignment to this repository. Please submit a link to the repository on Canvas. 
+
+# Variables, Vectors, Lists, and Data frames
+
+1. Create a vector called score that starts at 1 and contains every 9th number between 1 and 100. 
+```{r}
+score <- seq(from=1, to=100, by=9)
+score
+```
+
+2. Create a list called participants that contains the participants 1 - 12. 
+```{r}
+c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12) -> participants
+participants
+```
+
+3. Create a list called condition that alternates the words control and experimental six times, for a total of 12 words.
+```{r}
+c("control", "experimental") -> condition
+
+rep(times = 6, x = condition)
+```
+
+4. Create a dataframe from the variables in #1-3. 
+```{r}
+cbind.data.frame(score, participants, condition) -> varData
+```
+
+5. Take the mean of the score column from your dataframe.
+```{r}
+mean(varData$score)
+```
+
+
+# Using data frames 
+
+6. Open the penguins data frame. Print the data frame.  
+```{r}
+library(palmerpenguins)
+data("penguins")
+```
+
+7. Create a subset of data for Adelie penguins. 
+```{r}
+Ade_pens <- subset(penguins, species == "Adelie")
+Ade_pens
+```
+
+8. Summarize this subset of data. 
+```{r}
+summary(Ade_pens)
+```
+
+9. Create a dataframe that contains penguins with a bill length greater than or equal to the average bill length.
+```{r}
+na.exclude(penguins) -> nomissing
+
+mean(nomissing$bill_length_mm)
+43.99279 -> NoMM
+
+nomissing
+subset(nomissing, bill_length_mm >= NoMM) -> finally_dear_gods
+
+finally_dear_gods
+#I googled ways to remove missing data
+```
+
+10. How many penguins are in this subset? 
+```{r}
+finally_dear_gods #shows there are 171 rows (so 171 penguins)
+```
+
+# More dataset use
+11. Load the tidyverse library if you haven't already done so.
+```{r}
+library(tidyverse)
+```
+
+12. Create a new dataframe that has diamonds greater than 1 carat and an ideal cut. 
+```{r}
+subset(diamonds, carat > 1 & cut == "Ideal") -> BigDiamond
+```
+
+13. Find the mean and standard deviation of price for this new dataset. 
+```{r}
+mean(BigDiamond$price)
+sd(BigDiamond$price)
+```
+
+14. Create another new dataframe from the original diamonds dataset that includes all diamonds with a price between $2500 and $5000. 
+```{r}
+count(subset(diamonds, price >= 2500 & price <= 5000))
+
+subset(diamonds, price >= 2500 & price <= 5000) -> idk
+
+idk
+#oh I get it, R can't show more than 1000 rows at a time no matter what... I was right the first time ugh
+```
+
+15. Which color occurs most in this new subset? 
+```{r}
+summary(idk)
+```
+
+#the color that occurs the most in this specific subset is "F" which is closer to "best", but in the middle of the color ranks
